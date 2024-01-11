@@ -276,7 +276,6 @@ abstract class lunar_abstract_method
 
         return [
             'id' => $this->code,
-            'icon' => $icon,
             'sort' => $this->sort_order,
             'module' => $title
         ];
