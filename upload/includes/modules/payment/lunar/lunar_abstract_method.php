@@ -128,9 +128,12 @@ abstract class lunar_abstract_method
 		if (!is_array($apiResponse)) {
 			$this->redirectToCheckoutPage($apiResponse);
 		}
-
+	
 		if (isset($apiResponse['amount'])) {
-			if ($apiResponse['amount']['decimal'] != $order->info['total'] || $apiResponse['amount']['currency'] != $order->info['currency']) {
+			if (
+				$apiResponse['amount']['decimal'] != (string) $order->info['total'] 
+				|| $apiResponse['amount']['currency'] != $order->info['currency']
+			) {
 				$this->redirectToCheckoutPage(LUNAR_ORDER_ERROR_AMOUNT_CURRENCY_MISMATCH);
 			}
 		}
@@ -366,8 +369,8 @@ abstract class lunar_abstract_method
 		setcookie(LunarHelper::INTENT_KEY, '', 1);
 
 		$errorMessage = $errorMessage ? $errorMessage : LUNAR_ERROR_INVALID_REQUEST;
-		$messageStack->add_session( FILENAME_CHECKOUT_CONFIRMATION, $errorMessage, 'error' );
-		tep_redirect( tep_href_link( FILENAME_CHECKOUT_CONFIRMATION, '', 'SSL', true, false ) );
+		// $messageStack->add_session( FILENAME_CHECKOUT_CONFIRMATION, $errorMessage, 'error' ); // not working
+		tep_redirect( tep_href_link( FILENAME_CHECKOUT_CONFIRMATION, 'error_message=' . urlencode($errorMessage), 'SSL', true, false ) );
 	}
 
 	/**
