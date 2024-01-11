@@ -37,10 +37,8 @@ class LunarHelper
      * @param string $file
      */
     public static function writeLog( $error, $lineNo = 0, $file = '' ) {
-        $dateTime = date('Y-m-d_H-i-s');
-        $logfilename = dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/includes/modules/payment/lunar/logs/lunar_' . $dateTime . '.log';
-        $fp = @fopen( $logfilename, 'a' );
-        @fwrite( $fp, date( 'M d Y G:i' ) . ' -- ' . $error . "\n File:" . $file . "\n Line:" . $lineNo . "\n\n" );
-        @fclose( $fp );
+        $date = date('Y-m-d');
+        $logfilename = dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/includes/modules/payment/lunar/logs/lunar_' . $date . '.log';
+        file_put_contents($logfilename, date( '[Y-m-d H:i:s]' ) . ' -- ' . $error . "\n File:" . $file . "\n Line:" . $lineNo . "\n\n", FILE_APPEND);
     }
 }
